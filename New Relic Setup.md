@@ -182,3 +182,8 @@ kubectl delete namespace newrelic
 Architecture:
 
 <img width="287" height="238" alt="image" src="https://github.com/user-attachments/assets/e81a491a-3663-4f42-bf1c-73aea1437519" />
+
+
+
+<img width="1882" height="801" alt="image" src="https://github.com/user-attachments/assets/15bf69aa-6471-4f38-9d65-ac3e80f4d56d" />
+
