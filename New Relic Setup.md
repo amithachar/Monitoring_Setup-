@@ -1,5 +1,4 @@
-# Monitoring_Setup-
-Monitoring_Setup  for all montioring tools
+# Monitoring_Setup
 
 ## To configure New Relic monitoring for your GKE cluster, the easiest and recommended way is using Helm. This gives you:
 
