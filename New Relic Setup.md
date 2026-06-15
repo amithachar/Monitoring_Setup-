@@ -1,9 +1,10 @@
 # Monitoring_Setup-
 Monitoring_Setup  for all montioring tools
 
-# To configure New Relic monitoring for your GKE cluster, the easiest and recommended way is using Helm. This gives you:
+## To configure New Relic monitoring for your GKE cluster, the easiest and recommended way is using Helm. This gives you:
 
 ## GKE Cluster Monitoring
+
 Node Monitoring
 Pod Monitoring
 Logs
@@ -38,6 +39,7 @@ gcloud container clusters get-credentials lottery-cluster \
 kubectl get nodes
 ```
 
+
 ## 2. Install Helm (if missing)
 
 Verify:
@@ -50,6 +52,7 @@ helm version
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 ```
 
+
 ## 3. Add New Relic Helm Repository
 
 ```
@@ -58,11 +61,14 @@ helm repo add newrelic https://helm-charts.newrelic.com
 helm repo update
 
 ```
+
+
 ## 4. Create Namespace
 
 ```
 kubectl create namespace newrelic
 ```
+
 
 ## 5. Install New Relic on GKE
 
@@ -85,6 +91,7 @@ newrelic/nri-bundle \
 --set logging.enabled=true
 ```
 
+
 ## 6. Verify Installation
 
 Check pods:
@@ -100,6 +107,7 @@ newrelic-logging
 newrelic-kube-events
 newrelic-metadata
 ```
+
 
 ## 7. Open New Relic Dashboard
 
@@ -125,6 +133,8 @@ Nodes
 Logs
 Events
 
+
+
 ## 8. Enable Log Collection (Optional)
 ```
 helm upgrade newrelic-bundle \
@@ -133,6 +143,7 @@ newrelic/nri-bundle \
 --reuse-values \
 --set logging.enabled=true
 ```
+
 
 ## 9. Monitor Flask Application (Optional APM)
 
@@ -161,6 +172,7 @@ Response time
 Errors
 Transactions
 
+
 ## 10. Uninstall
 
 ```
@@ -170,12 +182,4 @@ kubectl delete namespace newrelic
 
 Architecture:
 
-GKE
-↓
-New Relic Agents
-↓
-Metrics + Logs
-↓
-New Relic SaaS
-↓
-Dashboard + Alerts
+<img width="287" height="238" alt="image" src="https://github.com/user-attachments/assets/e81a491a-3663-4f42-bf1c-73aea1437519" />
