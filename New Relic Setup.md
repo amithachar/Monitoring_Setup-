@@ -1,31 +1,181 @@
 # Monitoring_Setup-
 Monitoring_Setup  for all montioring tools
 
-# GKE Monitoring with New Relic
+# To configure New Relic monitoring for your GKE cluster, the easiest and recommended way is using Helm. This gives you:
 
-Configuring New Relic monitoring for your Google Kubernetes Engine (GKE) cluster using Helm provides a comprehensive visibility stack out of the box.
+## GKE Cluster Monitoring
+Node Monitoring
+Pod Monitoring
+Logs
+Events
+Kubernetes dashboards
+APM (optional)
+Alerts
 
-## Features Covered
-* **GKE Cluster Monitoring:** Overall health metrics of the cluster.
-* **Node & Pod Monitoring:** Granular CPU, memory, and disk usage tracking.
-* **Log & Event Collection:** Real-time Kubernetes events and stdout/stderr application logs.
-* **Dashboards & Alerts:** Pre-built Kubernetes dashboards and customizable alert policies.
-* **Application Performance Monitoring (APM):** Optional tracing for hosted applications (e.g., Flask).
+## First create a New Relic account.
 
----
+Open:
 
-## Prerequisites
+New Relic
 
-Before beginning, ensure you have:
-1. A New Relic account. If you don't have one, sign up at [New Relic](https://newrelic.com).
-2. Generated your **New Relic License Key**.
-3. Google Cloud SDK (`gcloud`) and `kubectl` installed locally.
+Create:
 
----
+Account
+License Key
 
-## Deployment Steps
+Then follow. 
 
-### 1. Connect kubectl to GKE
-Authenticate your local terminal with your target cluster:
-```bash
-gcloud container clusters get-credentials lottery-cluster --region asia-south1
+## 1. Connect kubectl to GKE
+
+```
+gcloud container clusters get-credentials lottery-cluster \
+--region asia-south1
+```
+
+## Verify:
+
+```
+kubectl get nodes
+```
+
+## 2. Install Helm (if missing)
+
+Verify:
+
+```
+helm version
+```
+
+```
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+```
+
+## 3. Add New Relic Helm Repository
+
+```
+helm repo add newrelic https://helm-charts.newrelic.com
+
+helm repo update
+
+```
+## 4. Create Namespace
+
+```
+kubectl create namespace newrelic
+```
+
+## 5. Install New Relic on GKE
+
+Replace values:
+
+```
+YOUR_LICENSE_KEY
+YOUR_CLUSTER_NAME
+```
+Example:
+
+```
+helm upgrade --install newrelic-bundle \
+newrelic/nri-bundle \
+--namespace=newrelic \
+--set global.licenseKey=YOUR_LICENSE_KEY \
+--set global.cluster=lottery-cluster \
+--set kube-state-metrics.enabled=true \
+--set prometheus.enabled=true \
+--set logging.enabled=true
+```
+
+## 6. Verify Installation
+
+Check pods:
+
+```
+kubectl get pods -n newrelic
+```
+
+Expected:
+```
+newrelic-infrastructure
+newrelic-logging
+newrelic-kube-events
+newrelic-metadata
+```
+
+## 7. Open New Relic Dashboard
+
+Open:
+
+New Relic One
+
+Navigate:
+
+```
+Infrastructure
+→ Kubernetes
+→ lottery-cluster
+```
+
+You should see:
+
+CPU
+Memory
+Pods
+Deployments
+Nodes
+Logs
+Events
+
+## 8. Enable Log Collection (Optional)
+```
+helm upgrade newrelic-bundle \
+newrelic/nri-bundle \
+--namespace=newrelic \
+--reuse-values \
+--set logging.enabled=true
+```
+
+## 9. Monitor Flask Application (Optional APM)
+
+Inside your Flask container:
+```
+pip install newrelic
+```
+
+Generate config:
+
+```
+newrelic-admin generate-config \
+YOUR_LICENSE_KEY \
+newrelic.ini
+```
+Update Dockerfile:
+
+```
+CMD ["newrelic-admin","run-program","gunicorn","app:app"]
+```
+
+Now New Relic tracks:
+
+Flask requests
+Response time
+Errors
+Transactions
+
+## 10. Uninstall
+
+```
+helm uninstall newrelic-bundle -n newrelic
+kubectl delete namespace newrelic
+```
+
+Architecture:
+
+GKE
+↓
+New Relic Agents
+↓
+Metrics + Logs
+↓
+New Relic SaaS
+↓
+Dashboard + Alerts
