@@ -1,6 +1,7 @@
-<img width="1297" height="806" alt="image" src="https://github.com/user-attachments/assets/df45607b-02e5-4875-85e9-64fff5d855ac" />## Datadog GKE setup
-
+## Datadog GKE setup
 <img width="1255" height="760" alt="image" src="https://github.com/user-attachments/assets/cb476315-3677-4a03-92ca-10152c498de2" />
+
+<img width="1297" height="806" alt="image" src="https://github.com/user-attachments/assets/df45607b-02e5-4875-85e9-64fff5d855ac" />
 
 <img width="1257" height="715" alt="image" src="https://github.com/user-attachments/assets/e38ea70e-d784-45b2-aa58-950f085bbee9" />
 
