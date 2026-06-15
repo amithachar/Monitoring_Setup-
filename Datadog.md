@@ -11,3 +11,6 @@
 <img width="1332" height="480" alt="image" src="https://github.com/user-attachments/assets/0f4b9850-4cb5-4e64-8114-89894c2c86b0" />
 
 
+# Dashboard
+
+<img width="1703" height="816" alt="image" src="https://github.com/user-attachments/assets/2937bbb8-b89b-4858-8520-6b46142b87ba" />
